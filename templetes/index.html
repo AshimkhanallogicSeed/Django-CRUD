@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Report</title>
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('newEntryForm');
+            form.classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body>
+    <div class="flex justify-center py-8">
+        <div class="w-full max-w-4xl">
+            <table class="table-auto border-collapse border border-gray-200 w-full">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2">Name</th>
+                        <th class="border border-gray-300 px-4 py-2">Age</th>
+                        <th class="border border-gray-300 px-4 py-2">Address</th>
+                        <th class="border border-gray-300 px-4 py-2">Marks</th>
+                        <th class="border border-gray-300 px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">{{ student.name }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ student.age }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ student.address }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ student.marks }}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a href="{% url 'update_stds' student.id %}" class="bg-red-500 text-white px-2 py-1 rounded">Edit</a>
+                            <a href="{% url 'delete_stds' student.id %}" class="bg-red-500 text-white px-2 py-1 rounded">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <button class="bg-green-500 text-white px-4 py-2 rounded" onclick="toggleForm()">Add New</button>
+                <button class="bg-yellow-500 text-white px-4 py-2 rounded">Refresh</button>
+            </div>
+            <div id="newEntryForm" class="mt-4 hidden">
+                <form class="bg-white p-4 border border-gray-300 rounded" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="name" required type="text" placeholder="Enter name">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="age">Age</label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="age" required type="number" placeholder="Enter age">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="address">Address</label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="address" required type="text" placeholder="Enter address">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="marks">Marks</label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="marks" required type="number" placeholder="Enter marks">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                            Submit
+                        </button>
+                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="toggleForm()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
