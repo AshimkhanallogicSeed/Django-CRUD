@@ -9,11 +9,13 @@ def home(request):
         age = data.get("age")
         address = data.get("address")
         marks = data.get("marks")
+        student_image = request.FILES.get("student_image")
         Students.objects.create(
             name=name,
             age=age,
             address=address,
-            marks=marks
+            marks=marks,
+            student_image=student_image,
         )
     queryset = Students.objects.all()
     context = {'students': queryset}
@@ -31,6 +33,10 @@ def Update_stds(request, id):
         student.age = request.POST.get('age')
         student.address = request.POST.get('address')
         student.marks = request.POST.get('marks')
+
+        if 'student_image' in request.FILES:
+            student.student_image = request.FILES['student_image']
+            
         student.save()
         return redirect('/')
     context = {'student': student}

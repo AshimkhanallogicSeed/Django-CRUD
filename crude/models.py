@@ -7,3 +7,4 @@ class Students(models.Model):
     age = models.IntegerField(default=101)
     address = models.CharField(max_length=100)
     marks = models.IntegerField(default=100)
+    student_image = models.ImageField(upload_to="std_image")
